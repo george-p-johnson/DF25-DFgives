@@ -1,5 +1,5 @@
 {
-  "name": "cnx-leaderboard",
+  "name": "DF25-DFgives",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -26,13 +26,13 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/george-p-johnson/CNX-Leaderboard.git"
+    "url": "git+https://github.com/george-p-johnson/DF25-DFgives.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/george-p-johnson/CNX-Leaderboard/issues"
+    "url": "https://github.com/george-p-johnson/DF25-DFgives/issues"
   },
-  "homepage": "https://github.com/george-p-johnson/CNX-Leaderboard#readme"
+  "homepage": "https://github.com/george-p-johnson/DF25-DFgives#readme"
 }
