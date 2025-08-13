@@ -211,7 +211,7 @@ import { onMounted, onUnmounted, computed } from 'vue';
 import { store } from '../store.js';
 
 // Use Netlify Functions endpoint
-const SHOTS_API_URL = '/.netlify/functions/shots';
+const SHOTS_API_URL = '/api/shots';
 
 let intervalId = null;
 
