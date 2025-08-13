@@ -2,14 +2,11 @@
   command = "npm run build"
   publish = "dist"
 
-# Proxy /api/shots to Google Apps Script
 [[redirects]]
   from = "/api/shots"
   to = "https://script.google.com/macros/s/AKfycbx3Ve1GOp90lyHgugxSZ7uSVMJaq6a4bXqCd-Imn0O5MikCV1010kjBLlIBQAHTfGFf/exec"
   status = 200
-  force = true
 
-# SPA fallback (Vue Router history mode)
 [[redirects]]
   from = "/*"
   to = "/index.html"

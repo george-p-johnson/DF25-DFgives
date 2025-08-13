@@ -165,7 +165,9 @@ import { ref, onMounted, computed } from 'vue';
 import { store } from '../store.js';
 
 // Use Netlify Functions endpoint
+// const SHOTS_API_URL = '/api/shots';
 const SHOTS_API_URL = '/api/shots';
+
 
 const totalShots = ref(0);
 
