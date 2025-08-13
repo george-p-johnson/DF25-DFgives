@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Frontend calls /api/* → routed to the function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/shots"
+  status = 200
+
+# SPA history fallback (if you use Vue Router history mode)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
