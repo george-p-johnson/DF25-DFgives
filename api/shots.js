@@ -34,7 +34,7 @@
 
 // api/shots.js
 export default async function handler(req, res) {
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxy0-Ub-ZjPqrI__b7ynmJ_YL1DsschLK2H2gsAFOIqbnxFfeMkm9c5SlXv5d_rII8l/exec';
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbww1gYvRWq3AgOJKO53ni5StyNNv5LM8eoSWRWPzUp_rrkHTeYOyMdGg82z72D_gJBQ/exec';
 
   try {
     if (req.method === 'GET') {
