@@ -34,8 +34,7 @@
 
 // api/shots.js
 export default async function handler(req, res) {
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbx3Ve1GOp90lyHgugxSZ7uSVMJaq6a4bXqCd-Imn0O5MikCV1010kjBLlIBQAHTfGFf/exec';
-  
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxy0-Ub-ZjPqrI__b7ynmJ_YL1DsschLK2H2gsAFOIqbnxFfeMkm9c5SlXv5d_rII8l/exec';
 
   try {
     if (req.method === 'GET') {
@@ -43,8 +42,11 @@ export default async function handler(req, res) {
       const text = await r.text();
       if (!r.ok) return res.status(500).json({ error: 'Upstream error', status: r.status, body: text });
       res.setHeader('Content-Type', 'application/json');
+      // stop any caching since you poll every 5s
+      res.setHeader('Cache-Control', 'no-store');
       return res.status(200).send(text);
     }
+
     if (req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
       const r = await fetch(GAS_URL, {
@@ -55,8 +57,10 @@ export default async function handler(req, res) {
       const text = await r.text();
       if (!r.ok) return res.status(500).json({ error: 'Upstream error', status: r.status, body: text });
       res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-store');
       return res.status(200).send(text);
     }
+
     res.status(405).send('Method Not Allowed');
   } catch (e) {
     res.status(500).json({ error: String(e) });
