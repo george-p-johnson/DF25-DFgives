@@ -7,17 +7,19 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// 🔹 API route for leaderboard shots
+// ✅ API route for leaderboard shots
 app.get("/api/shots", (req, res) => {
-  // For now, just return mock data
+  // Replace this with Google Sheet fetch later
   res.json({ totalShots: 1234 });
 });
 
-// 🔹 Serve Vue frontend
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// ✅ Serve Vue build
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, "dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "dist/index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
