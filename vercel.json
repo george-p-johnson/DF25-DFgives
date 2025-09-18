@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/shots.js": {
-      "runtime": "@vercel/node@20.15.1"
-    }
-  }
-}
