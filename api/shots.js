@@ -1,34 +1,41 @@
-// api/shots.js
-export default async function handler(req, res) {
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzJwnfOg5IK_YOjCEil2Ix-piAU-IlYKoG1X5lmeTA3R1pQ5zFMS-nKJmVOgCKeGDE3/exec';
+// Create this file at: /api/shots.js
+// Simple Vercel serverless function - no external dependencies
 
-  try {
-    if (req.method === 'GET') {
-      const r = await fetch(GAS_URL);
-      const text = await r.text();
-      if (!r.ok) return res.status(500).json({ error: 'Upstream error', status: r.status, body: text });
-      res.setHeader('Content-Type', 'application/json');
-      // stop any caching since you poll every 5s
-      res.setHeader('Cache-Control', 'no-store');
-      return res.status(200).send(text);
-    }
+// In-memory storage (will reset on cold starts)
+let totalShots = 1234;
 
-    if (req.method === 'POST') {
-      const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-      const r = await fetch(GAS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const text = await r.text();
-      if (!r.ok) return res.status(500).json({ error: 'Upstream error', status: r.status, body: text });
-      res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Cache-Control', 'no-store');
-      return res.status(200).send(text);
-    }
+export default function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    res.status(405).send('Method Not Allowed');
-  } catch (e) {
-    res.status(500).json({ error: String(e) });
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
+
+  if (req.method === 'GET') {
+    return res.status(200).json({ totalShots });
+  }
+
+  if (req.method === 'POST') {
+    const { totalShots: newTotal } = req.body;
+    
+    if (typeof newTotal === 'number' && newTotal >= 0) {
+      totalShots = newTotal;
+      return res.status(200).json({ 
+        totalShots, 
+        message: 'Shots updated successfully (Vercel)'
+      });
+    } else {
+      return res.status(400).json({ 
+        error: 'Invalid totalShots value' 
+      });
+    }
+  }
+
+  // Method not allowed
+  return res.status(405).json({ error: 'Method not allowed' });
 }
