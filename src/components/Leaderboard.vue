@@ -19,8 +19,8 @@
   margin: 0 auto;
   display: table;
   background-color: #90D0FE;
-  height: 1080px;
-  width: 1920px;
+  height: 512px;
+  width: 896px;
   /* background-image: url('/img/bg.png'); */
 }
 
