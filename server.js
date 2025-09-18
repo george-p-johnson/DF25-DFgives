@@ -1,17 +1,24 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from dist
-app.use(express.static(path.join(__dirname, "dist")));
+// allow JSON
+app.use(express.json());
 
-// Fallback to index.html for Vue SPA routes
+// 🔹 API route for leaderboard shots
+app.get("/api/shots", (req, res) => {
+  // For now, just return mock data
+  res.json({ totalShots: 1234 });
+});
+
+// 🔹 Serve Vue frontend
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
