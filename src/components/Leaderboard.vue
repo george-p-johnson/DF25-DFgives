@@ -87,8 +87,8 @@ import { onMounted, onUnmounted, computed } from 'vue';
 import { store } from '../store.js';
 
 // Use Netlify Functions endpoint
-// const SHOTS_API_URL = '/api/shots';
-const SHOTS_API_URL = 'https://script.google.com/macros/s/AKfycbx3Ve1GOp90lyHgugxSZ7uSVMJaq6a4bXqCd-Imn0O5MikCV1010kjBLlIBQAHTfGFf/exec';
+const SHOTS_API_URL = '/api/shots';
+// const SHOTS_API_URL = 'https://script.google.com/macros/s/AKfycbx3Ve1GOp90lyHgugxSZ7uSVMJaq6a4bXqCd-Imn0O5MikCV1010kjBLlIBQAHTfGFf/exec';
 
 
 
