@@ -5,7 +5,6 @@ import { fileURLToPath } from "url";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// allow JSON
 app.use(express.json());
 
 // 🔹 API route for leaderboard shots
