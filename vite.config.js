@@ -10,7 +10,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // No rewrite. Frontend calls /api/*, Vite forwards to :3000/api/*
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,

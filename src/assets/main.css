@@ -11,10 +11,11 @@ html, body {
     height: 512px; 
     width: 896px;
     padding: 0;
-    overflow: hidden;
+    background-color: #000;
+    /* overflow: hidden;
     overflow-y: hidden;
     overflow-x: hidden;
-    overscroll-behavior: none; 
+    overscroll-behavior: none;  */
 }
 
 /*=========================================================

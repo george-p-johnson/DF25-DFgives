@@ -1,48 +1,34 @@
-// server.js - Simple Heroku server
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-
+// server.js
+const express = require('express');
+const path = require('path');
+const fetch = require('node-fetch'); // make sure this is installed
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
 
-// In-memory storage for Heroku
-let totalShots = 1234;
+// Google Apps Script endpoint
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJwnfOg5IK_YOjCEil2Ix-piAU-IlYKoG1X5lmeTA3R1pQ5zFMS-nKJmVOgCKeGDE3/exec";
 
-// ✅ GET API route
-app.get("/api/shots", (req, res) => {
-  res.json({ totalShots });
-});
-
-// ✅ POST API route
-app.post("/api/shots", (req, res) => {
-  const { totalShots: newTotal } = req.body;
-  
-  if (typeof newTotal === 'number' && newTotal >= 0) {
-    totalShots = newTotal;
-    res.json({ 
-      totalShots, 
-      message: 'Shots updated successfully (Heroku)' 
-    });
-  } else {
-    res.status(400).json({ error: 'Invalid totalShots value' });
+// Proxy /api/shots -> Google Apps Script
+app.get('/api/shots', async (req, res) => {
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Error fetching from Google Apps Script:", err);
+    res.status(500).json({ error: "Failed to fetch shots" });
   }
 });
 
-// ✅ Serve Vue build
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Serve static files from dist
+app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use(express.static(path.join(__dirname, "dist")));
-
-// ✅ Catch-all for Vue Router
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist/index.html"));
+// Fallback to index.html for SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📦 Platform: Heroku`);
+  console.log(`Server is running on port ${PORT}`);
 });

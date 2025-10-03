@@ -39,7 +39,9 @@
   display: table;
   max-width: 600px;
   padding: 20px;
+  background-color: #fff;
 }
+
 h2 { text-align: center; margin-bottom: 30px; }
 h3 { text-align: center; margin: 20px 0 10px 0; color: #333; }
 .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
@@ -58,13 +60,33 @@ button:active { transform: translateY(1px); }
 import { ref, onMounted, computed } from 'vue';
 import { store } from '../store.js';
 
-const SHOTS_API_URL = '/api/shots';
+// const SHOTS_API_URL = '/api/shots';
+// const SHOTS_API_URL = import.meta.env.VITE_SHOTS_API_URL;
+
 
 
 const totalShots = ref(0);
 
 const moneyDonated = computed(() => (totalShots.value || 0) * 5);
 const amountLeft = computed(() => Math.max(100000 - moneyDonated.value, 0));
+
+// const fetchShots = async () => {
+//   try {
+//     const response = await fetch(SHOTS_API_URL);
+//     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+//     const data = await response.json();
+//     totalShots.value = data.totalShots ?? 0;
+//     store.totalShots = totalShots.value;
+//   } catch (err) {
+//     console.error('Error fetching shots:', err);
+//   }
+// };
+
+
+
+
+
+const SHOTS_API_URL = '/api/shots'; // <- use the same serverless function as Leaderboard
 
 const fetchShots = async () => {
   try {
@@ -85,17 +107,43 @@ const saveShots = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ totalShots: totalShots.value }),
     });
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`HTTP ${response.status}: ${text}`);
-    }
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const result = await response.json();
-    console.log('Shots saved:', result);
     store.totalShots = totalShots.value;
   } catch (err) {
     console.error('Error saving shots:', err);
   }
 };
+
+
+
+
+
+
+
+
+// const saveShots = async () => {
+//   try {
+//     const response = await fetch(SHOTS_API_URL, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ totalShots: totalShots.value }),
+//     });
+//     if (!response.ok) {
+//       const text = await response.text();
+//       throw new Error(`HTTP ${response.status}: ${text}`);
+//     }
+//     const result = await response.json();
+//     console.log('Shots saved:', result);
+//     store.totalShots = totalShots.value;
+//   } catch (err) {
+//     console.error('Error saving shots:', err);
+//   }
+// };
+
+
+
 
 onMounted(fetchShots);
 </script>
